@@ -336,6 +336,10 @@ export default class Locale {
     this.toPage = this.toPage.bind(this);
   }
 
+  convertToLocalTimezone(date) {
+    return new Date(date.toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
+  }
+
   format(date, mask) {
     date = this.normalizeDate(date);
     if (!date) return '';
@@ -398,7 +402,7 @@ export default class Locale {
             return false;
           }
 
-          const today = new Date();
+          const today = this.convertToLocalTimezone(new Date());
           if (
             dateInfo.isPm === true &&
             dateInfo.hour != null &&
@@ -437,7 +441,7 @@ export default class Locale {
           }
           return date;
         })
-        .find(d => d) || new Date(dateString)
+        .find(d => d) || this.convertToLocalTimezone(new Date(dateString))
     );
   }
 

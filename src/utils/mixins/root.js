@@ -59,7 +59,7 @@ export const rootMixin = {
           : this.normalizeDate(minDate, { time: '00:00:00' });
         dates.push({
           start: null,
-          end: new Date(end.getTime() - 1000),
+          end: this.$locale.convertToLocalTimezone(new Date(end.getTime() - 1000)),
         });
       }
       // Add disabled range for min date
@@ -68,7 +68,7 @@ export const rootMixin = {
           ? this.normalizeDate(maxDateExact)
           : this.normalizeDate(maxDate, { time: '23:59:59' });
         dates.push({
-          start: new Date(start.getTime() + 1000),
+          start: this.$locale.convertToLocalTimezone(new Date(start.getTime() + 1000)),
           end: null,
         });
       }
@@ -115,7 +115,7 @@ export const rootMixin = {
       return this.$locale.getDateParts(this.normalizeDate(date));
     },
     pageForThisMonth() {
-      return this.pageForDate(new Date());
+      return this.pageForDate(this.$locale.convertToLocalTimezone(new Date()));
     },
   },
 };
